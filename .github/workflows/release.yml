@@ -1,0 +1,35 @@
+name: Publish package to the Maven Central Repository
+on:
+  pull_request:
+    types:
+      - closed
+
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }} # Value of the GPG private key to import
+          gpg-passphrase: GPG_PASSPHRASE # env variable for GPG private key passphrase
+          # overwrite-settings: true
+          server-id: central # Value of the distributionManagement/repository/id field of the pom.xml
+          server-username: SONATYPE_USERNAME # env variable for username in deploy
+          server-password: SONATYPE_PASSWORD
+          cache: maven
+
+      - name: Deploy
+        run: |
+          ./mvnw deploy -Prelease -Dgpg.passphrase=${GPG_PASSPHRASE} 
+
+        env:
+          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}

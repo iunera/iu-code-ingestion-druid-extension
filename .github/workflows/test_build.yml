@@ -1,0 +1,26 @@
+name: Test build on branches
+
+on:
+  push:
+    branches:
+      - "*"
+      - "*/*"
+      - "**"
+      - "!main" # excludes master
+
+jobs:
+  test_build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: "11"
+          distribution: "adopt"
+          cache: maven
+
+      - name: test_build
+        run: |
+          ./mvnw package -X

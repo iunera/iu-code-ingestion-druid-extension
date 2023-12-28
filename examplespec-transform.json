@@ -1,0 +1,42 @@
+SELECT "camera",
+ARRAY_TO_MV("dim"),  count (*) as occurence
+FROM "dap_prd_fqm_objectflow_trajectory"
+WHERE __time <= TIMESTAMP '2023-04-27 00:00:00.000' and
+__time > TIMESTAMP '2023-04-26 23:50:59.990'
+group by 1,2
+  "transformSpec": {
+        "transforms": [
+          {
+            "type": "PyScriptTransform",
+            "name": "multinumber",
+            "sourceColumns": "meta_provider",
+            "code": "def transform(str) :\r\n  return [1,2,3]\r\n\r\n",
+            "rawResult": "false"
+          },
+          {
+            "type": "PyScriptTransform",
+            "name": "multistring",
+            "sourceColumns": "meta_provider",
+            "code": "def transform(str) :\r\n  return [\"a\",\"b\",\"c\"]\r\n\r\n",
+            "rawResult": "true"
+          },
+          {
+            "type": "PyScriptTransform",
+            "name": "nested1",
+            "sourceColumns": "meta_provider",
+            "transformFunction": "detectfeatures",
+            "code": "def detectfeatures(str) :\r\n  return [[\"1\",\"2\"],[\"3\",\"4\"]]\r\n\r\n",
+            "rawResult": "true"
+          },
+          {
+            "type": "PyScriptTransform",
+            "name": "nested2",
+            "sourceColumns": [
+              "meta_provider",
+              "stop_hasOfficalStopProximity"
+            ],
+            "code": "def transform(str,str2) :\r\n  return [\"[1,2,\"+str2+\"]\",\"[\"+str+\",3,4]\"]\r\n",
+            "rawResult": "true"
+          }
+        ]
+      }

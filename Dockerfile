@@ -1,10 +1,12 @@
+ARG DRUID_VERSION
+
 FROM maven:3-openjdk-17 as maven
 
 COPY . .
 
 RUN mvn clean package 
 
-FROM apache/druid:29.0.1
+FROM apache/druid:${DRUID_VERSION}
 
 WORKDIR /opt/druid
 

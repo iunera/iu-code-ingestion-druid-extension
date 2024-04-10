@@ -17,13 +17,14 @@
 	<groupId>com.iunera.druid</groupId>
 	<artifactId>iu-code-ingestion-druid-extension</artifactId>
 	<version>29.0.1</version>
+
 	<description>This is a project for useful Druid extensions in the iunera fahrbar project.</description>
 	<url>https://github.com/iunera</url>
 
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<druid.version>29.0.1</druid.version>
+		<druid.version>${project.version}</druid.version>
 		<jmh.version>1.9.2</jmh.version>
 		<maven.compiler.source>17</maven.compiler.source>
 		<maven.compiler.target>17</maven.compiler.target>

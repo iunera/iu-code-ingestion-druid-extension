@@ -1,4 +1,6 @@
-FROM apache/druid:29.0.1
+ARG DRUID_VERSION
+
+FROM apache/druid:${DRUID_VERSION}
 
 WORKDIR /opt/druid
 

@@ -31,9 +31,17 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - name: provide singlestage Dockerfile
+        run: |
+          rm Dockerfile
+          cp -a Dockerfile.singlestage Dockerfile
+
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
           push: true
           tags: iunera/druid:dev-${{ github.sha }}
 
+      - name: Inspect
+        run: |
+          docker image inspect iunera/druid:dev-${{ github.sha }}

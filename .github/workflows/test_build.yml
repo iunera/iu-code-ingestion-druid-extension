@@ -6,7 +6,7 @@ on:
       - "*"
       - "*/*"
       - "**"
-      - "!main" # excludes master
+      - "!main"
 
 jobs:
   test_build:
@@ -24,3 +24,10 @@ jobs:
       - name: test_build
         run: |
           ./mvnw package
+
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          push: false
+          tags: iunera/druid:dev-${{ github.sha }}
+

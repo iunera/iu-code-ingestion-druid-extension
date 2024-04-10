@@ -14,9 +14,11 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.apache.druid.extensions.contrib.com.iunera</groupId>
+	<groupId>com.iunera.druid</groupId>
 	<artifactId>iu-code-ingestion-druid-extension</artifactId>
 	<version>29.0.1</version>
+	<description>This is a project for useful Druid extensions in the iunera fahrbar project.</description>
+	<url>https://github.com/iunera</url>
 
 
 	<properties>
@@ -24,6 +26,35 @@
 		<druid.version>29.0.1</druid.version>
 		<jmh.version>1.9.2</jmh.version>
 	</properties>
+
+	<licenses>
+		<license>
+			<name>Token based compensation license</name>
+			<url>https://www.iunera.com/licensing/token-based-compensation-license</url>
+			<distribution>manual</distribution>
+		</license>
+	</licenses>
+
+	<scm>
+		<url>https://github.com/iunera/iu-code-ingestion-druid-extension</url>
+		<connection>scm:git:git://github.com:iunera/iu-code-ingestion-druid-extension.git</connection>
+		<developerConnection>scm:git:ssh://github.com:iunera/iu-code-ingestion-druid-extension.git</developerConnection>
+	</scm>
+
+	<organization>
+		<name>iunera GmbH + Co. KG.</name>
+		<url>https://www.iunera.com/</url>
+	</organization>
+
+	<developers>
+		<developer>
+			<name>Tim</name>
+		</developer>
+		<developer>
+			<name>Chris</name>
+		</developer>
+	</developers>
+
 
 	<dependencies>
 		<dependency>
@@ -166,4 +197,77 @@
 
 		</plugins>
 	</build>
+
+
+	<profiles>
+		<profile>
+			<id>release</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-source-plugin</artifactId>
+						<version>3.2.1</version>
+						<executions>
+							<execution>
+								<id>attach-sources</id>
+								<goals>
+									<goal>jar-no-fork</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-javadoc-plugin</artifactId>
+						<version>3.4.1</version>
+						<executions>
+							<execution>
+								<id>attach-javadocs</id>
+								<goals>
+									<goal>jar</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<version>1.5</version>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<!-- Prevent gpg from using pinentry programs -->
+							<gpgArguments>
+								<arg>--pinentry-mode</arg>
+								<arg>loopback</arg>
+							</gpgArguments>
+						</configuration>
+
+					</plugin>
+
+					<plugin>
+						<groupId>org.sonatype.central</groupId>
+						<artifactId>central-publishing-maven-plugin</artifactId>
+						<version>0.1.2</version>
+						<extensions>true</extensions>
+						<configuration>
+							<publishingServerId>central</publishingServerId>
+							<tokenEnabled>true</tokenEnabled>
+						</configuration>
+					</plugin>
+
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>

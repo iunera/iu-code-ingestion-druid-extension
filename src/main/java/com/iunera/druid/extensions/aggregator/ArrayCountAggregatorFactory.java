@@ -1,8 +1,8 @@
 /*
- * Copyright 2023 Tim Frey
- * This is a project for useful Druid extensions in the Fahrbar project. The project is not to be
- * distributed or for commercial use. It is in the current state for evaluation purposes only. This
- * software has no warranties and no special use rights are granted other than evaluation.
+ * Copyright 2023 Tim Frey This is a project for useful Druid extensions in the Fahrbar project. The
+ * project is not to be distributed or for commercial use. It is in the current state for evaluation
+ * purposes only. This software has no warranties and no special use rights are granted other than
+ * evaluation.
  */
 package com.iunera.druid.extensions.aggregator;
 
@@ -26,78 +26,119 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
-public class ArrayCountAggregatorFactory extends AggregatorFactory
-{
-  // Built-in aggregators use 1-byte codes starting with 0x00 for cache keys.
-  // Extension aggregators can use 0xFF + our own site-specific byte.
-  private static final byte[] CACHE_KEY_PREFIX = new byte[]{(byte) 0xFF, (byte) 0x00};
 
+/**
+ * A factory for creating ArrayCountAggregator objects.
+ */
+public class ArrayCountAggregatorFactory extends AggregatorFactory {
+  // Built-in aggregators use 1-byte codes starting with 0x00 for cache keys.
+  /** The Constant CACHE_KEY_PREFIX. */
+  // Extension aggregators can use 0xFF + our own site-specific byte.
+  private static final byte[] CACHE_KEY_PREFIX = new byte[] {(byte) 0xFF, (byte) 0x00};
+
+  /** The Constant TYPE_NAME. */
   // Type name for JSON.
   public static final String TYPE_NAME = "exampleSum";
 
-  private static final Comparator COMPARATOR = new Ordering()
-  {
+  /** The Constant COMPARATOR. */
+  private static final Comparator COMPARATOR = new Ordering() {
     @Override
-    public int compare(Object o, Object o1)
-    {
+    public int compare(Object o, Object o1) {
       return 1;
     }
   }.nullsFirst();
 
- 
 
+
+  /** The name. */
   private final String name;
+
+  /** The field name. */
   private final String fieldName;
 
+  /**
+   * Instantiates a new array count aggregator factory.
+   *
+   * @param name the name
+   * @param fieldName the field name
+   */
   @JsonCreator
-  public ArrayCountAggregatorFactory(
-      @JsonProperty("name") final String name,
-      @JsonProperty("fieldName") final String fieldName
-  )
-  {
+  public ArrayCountAggregatorFactory(@JsonProperty("name") final String name,
+      @JsonProperty("fieldName") final String fieldName) {
     this.name = Preconditions.checkNotNull(name, "name");
     this.fieldName = Preconditions.checkNotNull(fieldName, "fieldName");
   }
 
+  /**
+   * Factorize.
+   *
+   * @param metricFactory the metric factory
+   * @return the aggregator
+   */
   @Override
-  public Aggregator factorize(ColumnSelectorFactory metricFactory)
-  {
+  public Aggregator factorize(ColumnSelectorFactory metricFactory) {
     return new ArrayCountAggregator(metricFactory.makeColumnValueSelector(fieldName));
   }
 
+  /**
+   * Factorize buffered.
+   *
+   * @param metricFactory the metric factory
+   * @return the buffer aggregator
+   */
   @Override
-  public BufferAggregator factorizeBuffered(ColumnSelectorFactory metricFactory)
-  {
+  public BufferAggregator factorizeBuffered(ColumnSelectorFactory metricFactory) {
     return new ArrayCountBufferAggregator(metricFactory.makeColumnValueSelector(fieldName));
   }
 
+  /**
+   * Gets the comparator.
+   *
+   * @return the comparator
+   */
   @Override
-  public Comparator getComparator()
-  {
+  public Comparator getComparator() {
     return COMPARATOR;
   }
 
+  /**
+   * Combine.
+   *
+   * @param lhs the lhs
+   * @param rhs the rhs
+   * @return the object
+   */
   @Override
-  public Object combine(Object lhs, Object rhs)
-  {
-    List<Long> lhsl=(List<Long> )lhs;
-    List<Long> lrhs=(List<Long> )rhs;
-    List<Long> ret= new ArrayList<>(lhsl.size());
-    for (int i=0; i<lhsl.size();i++) {
-      ret.add(lhsl.get(i)+lrhs.get(i));
+  public Object combine(Object lhs, Object rhs) {
+    List<Long> lhsl = (List<Long>) lhs;
+    List<Long> lrhs = (List<Long>) rhs;
+    List<Long> ret = new ArrayList<>(lhsl.size());
+    for (int i = 0; i < lhsl.size(); i++) {
+      ret.add(lhsl.get(i) + lrhs.get(i));
     }
     return ret;
   }
 
+  /**
+   * Gets the combining factory.
+   *
+   * @return the combining factory
+   */
   @Override
-  public AggregatorFactory getCombiningFactory()
-  {
+  public AggregatorFactory getCombiningFactory() {
     return new ArrayCountAggregatorFactory(name, name);
   }
 
+  /**
+   * Gets the merging factory.
+   *
+   * @param other the other
+   * @return the merging factory
+   * @throws AggregatorFactoryNotMergeableException the aggregator factory not mergeable exception
+   */
   @Override
-  public AggregatorFactory getMergingFactory(AggregatorFactory other) throws AggregatorFactoryNotMergeableException
-  {
+  public AggregatorFactory getMergingFactory(AggregatorFactory other)
+      throws AggregatorFactoryNotMergeableException {
     if (other.getName().equals(this.getName()) && this.getClass() == other.getClass()) {
       return getCombiningFactory();
     } else {
@@ -105,74 +146,120 @@ public class ArrayCountAggregatorFactory extends AggregatorFactory
     }
   }
 
+  /**
+   * Gets the required columns.
+   *
+   * @return the required columns
+   */
   @Override
-  public List<AggregatorFactory> getRequiredColumns()
-  {
+  public List<AggregatorFactory> getRequiredColumns() {
     return ImmutableList.of(new ArrayCountAggregatorFactory(fieldName, fieldName));
   }
 
+  /**
+   * Deserialize.
+   *
+   * @param object the object
+   * @return the object
+   */
   @Override
-  public Object deserialize(Object object)
-  {
-   
+  public Object deserialize(Object object) {
+
     return object;
   }
 
+  /**
+   * Finalize computation.
+   *
+   * @param object the object
+   * @return the object
+   */
   @Override
-  public Object finalizeComputation(Object object)
-  {
+  public Object finalizeComputation(Object object) {
     return object;
   }
 
+  /**
+   * Gets the field name.
+   *
+   * @return the field name
+   */
   @JsonProperty
-  public String getFieldName()
-  {
+  public String getFieldName() {
     return fieldName;
   }
 
+  /**
+   * Gets the name.
+   *
+   * @return the name
+   */
   @Override
   @JsonProperty
-  public String getName()
-  {
+  public String getName() {
     return name;
   }
 
+  /**
+   * Required fields.
+   *
+   * @return the list
+   */
   @Override
-  public List<String> requiredFields()
-  {
+  public List<String> requiredFields() {
     return ImmutableList.of(fieldName);
   }
 
+  /**
+   * Gets the cache key.
+   *
+   * @return the cache key
+   */
   @Override
-  public byte[] getCacheKey()
-  {
+  public byte[] getCacheKey() {
     byte[] fieldNameBytes = StringUtils.toUtf8WithNullToEmpty(fieldName);
-    return ByteBuffer.allocate(2 + fieldNameBytes.length)
-                     .put(CACHE_KEY_PREFIX)
-                     .put(fieldNameBytes)
-                     .array();
+    return ByteBuffer.allocate(2 + fieldNameBytes.length).put(CACHE_KEY_PREFIX).put(fieldNameBytes)
+        .array();
   }
 
+  /**
+   * Gets the intermediate type.
+   *
+   * @return the intermediate type
+   */
   @Override
-  public ColumnType getIntermediateType()
-  {
+  public ColumnType getIntermediateType() {
     return ColumnType.FLOAT;
   }
 
+  /**
+   * Gets the result type.
+   *
+   * @return the result type
+   */
   @Override
   public ColumnType getResultType() {
     return this.getIntermediateType();
   }
 
+  /**
+   * Gets the max intermediate size.
+   *
+   * @return the max intermediate size
+   */
   @Override
-  public int getMaxIntermediateSize()
-  {
+  public int getMaxIntermediateSize() {
     return Doubles.BYTES;
   }
 
+  /**
+   * Equals.
+   *
+   * @param o the o
+   * @return true, if successful
+   */
   @Override
-  public boolean equals(final Object o)
-  {
+  public boolean equals(final Object o) {
     if (this == o) {
       return true;
     }
@@ -180,22 +267,27 @@ public class ArrayCountAggregatorFactory extends AggregatorFactory
       return false;
     }
     final ArrayCountAggregatorFactory that = (ArrayCountAggregatorFactory) o;
-    return Objects.equals(name, that.name) &&
-           Objects.equals(fieldName, that.fieldName);
+    return Objects.equals(name, that.name) && Objects.equals(fieldName, that.fieldName);
   }
 
+  /**
+   * Hash code.
+   *
+   * @return the int
+   */
   @Override
-  public int hashCode()
-  {
+  public int hashCode() {
     return Objects.hash(name, fieldName);
   }
 
+  /**
+   * To string.
+   *
+   * @return the string
+   */
   @Override
-  public String toString()
-  {
-    return "ExampleSumAggregatorFactory{" +
-           "name='" + name + '\'' +
-           ", fieldName='" + fieldName + '\'' +
-           '}';
+  public String toString() {
+    return "ExampleSumAggregatorFactory{" + "name='" + name + '\'' + ", fieldName='" + fieldName
+        + '\'' + '}';
   }
 }

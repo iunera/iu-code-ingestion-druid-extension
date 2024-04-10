@@ -1,8 +1,8 @@
 /*
- * Copyright 2023 Tim Frey
- * This is a project for useful Druid extensions in the Fahrbar project. The project is not to be
- * distributed or for commercial use. It is in the current state for evaluation purposes only. This
- * software has no warranties and no special use rights are granted other than evaluation.
+ * Copyright 2023 Tim Frey This is a project for useful Druid extensions in the Fahrbar project. The
+ * project is not to be distributed or for commercial use. It is in the current state for evaluation
+ * purposes only. This software has no warranties and no special use rights are granted other than
+ * evaluation.
  */
 
 package com.iunera.druid.extensions;
@@ -18,8 +18,16 @@ import com.iunera.druid.extensions.aggregator.ArrayCountAggregatorFactory;
 import com.iunera.druid.extensions.transform.PyScriptTransform;
 import com.iunera.druid.extensions.transform.SimpleJavaTransform;
 
-
+/**
+ * The Class IuneraExtensionModule.
+ */
 public class IuneraExtensionModule implements DruidModule {
+
+  /**
+   * Gets the jackson modules.
+   *
+   * @return the jackson modules
+   */
   @Override
   public List<? extends Module> getJacksonModules() {
     return ImmutableList.of(new SimpleModule(getClass().getSimpleName()).registerSubtypes(
@@ -28,6 +36,11 @@ public class IuneraExtensionModule implements DruidModule {
         new NamedType(SimpleJavaTransform.class, SimpleJavaTransform.TYPE_NAME)));
   }
 
+  /**
+   * Configure.
+   *
+   * @param binder the binder
+   */
   @Override
   public void configure(Binder binder) {}
 }

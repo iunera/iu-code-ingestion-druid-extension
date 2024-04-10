@@ -1,8 +1,8 @@
 /*
- * Copyright 2023 Tim Frey
- * This is a project for useful Druid extensions in the Fahrbar project. The project is not to be
- * distributed or for commercial use. It is in the current state for evaluation purposes only. This
- * software has no warranties and no special use rights are granted other than evaluation.
+ * Copyright 2023 Tim Frey This is a project for useful Druid extensions in the Fahrbar project. The
+ * project is not to be distributed or for commercial use. It is in the current state for evaluation
+ * purposes only. This software has no warranties and no special use rights are granted other than
+ * evaluation.
  */
 
 package com.iunera.druid.extensions.aggregator;
@@ -12,55 +12,85 @@ import org.apache.druid.query.aggregation.Aggregator;
 import org.apache.druid.segment.BaseFloatColumnValueSelector;
 import org.apache.druid.segment.ColumnValueSelector;
 
-public class ArrayCountAggregator implements Aggregator
-{
-  private final ColumnValueSelector<List<Long>>  selector;
 
+/**
+ * The Class ArrayCountAggregator.
+ */
+public class ArrayCountAggregator implements Aggregator {
+
+  /** The selector. */
+  private final ColumnValueSelector<List<Long>> selector;
+
+  /** The sum. */
   private List<Long> sum;
 
-  public ArrayCountAggregator(ColumnValueSelector<List<Long>>  selector)
-  {
+  /**
+   * Instantiates a new array count aggregator.
+   *
+   * @param selector the selector
+   */
+  public ArrayCountAggregator(ColumnValueSelector<List<Long>> selector) {
     this.selector = selector;
 
     this.sum = null;
   }
 
+  /**
+   * Aggregate.
+   */
   @Override
-  public void aggregate()
-  {
-   sum= (List<Long>) selector.getObject();
- 
+  public void aggregate() {
+    sum = (List<Long>) selector.getObject();
+
   }
 
+  /**
+   * Gets the.
+   *
+   * @return the object
+   */
   @Override
-  public Object get()
-  {
+  public Object get() {
     return sum;
   }
 
+  /**
+   * Gets the float.
+   *
+   * @return the float
+   */
   @Override
-  public float getFloat()
-  {
+  public float getFloat() {
     throw new UnsupportedOperationException("Not implemented");
-    //return (float) sum;
+    // return (float) sum;
   }
 
+  /**
+   * Gets the long.
+   *
+   * @return the long
+   */
   @Override
-  public long getLong()
-  {
+  public long getLong() {
     throw new UnsupportedOperationException("Not implemented");
-    //return (long) sum;
+    // return (long) sum;
   }
 
+  /**
+   * Clone.
+   *
+   * @return the aggregator
+   */
   @Override
-  public Aggregator clone()
-  {
+  public Aggregator clone() {
     return new ArrayCountAggregator(selector);
   }
 
+  /**
+   * Close.
+   */
   @Override
-  public void close()
-  {
+  public void close() {
     // no resources to cleanup
   }
 }

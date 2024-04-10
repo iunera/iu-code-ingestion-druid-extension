@@ -16,15 +16,42 @@ import org.python.core.PyList;
 import org.python.core.PyObject;
 import org.python.core.PyString;
 
+
+/**
+ * The Class PyRowFunction.
+ */
 class PyRowFunction implements RowFunction {
+
+  /** The name. */
   private final String name;
+
+  /** The pyrowfunction. */
   private final PyFunction pyrowfunction;
+
+  /** The source. */
   private final List<String> source;
+
+  /** The source args size. */
   private final int sourceArgsSize;
+
+  /** The returnraw. */
   private final boolean returnraw;
+
+  /** The add transform function args. */
   private final List<String> addTransformFunctionArgs;
+
+  /** The add transform function args size. */
   private final int addTransformFunctionArgsSize;
 
+  /**
+   * Instantiates a new py row function.
+   *
+   * @param name the name
+   * @param source the source
+   * @param pyrowfunction the pyrowfunction
+   * @param returnRawValues the return raw values
+   * @param addTransformFunctionArgs the add transform function args
+   */
   PyRowFunction(final String name, final List<String> source, PyFunction pyrowfunction,
       boolean returnRawValues, List<String> addTransformFunctionArgs) {
     this.name = name;
@@ -46,6 +73,12 @@ class PyRowFunction implements RowFunction {
     }
   }
 
+  /**
+   * Eval.
+   *
+   * @param row the row
+   * @return the object
+   */
   // metric transform
   @Override
   public Object eval(final Row row) {
@@ -62,10 +95,16 @@ class PyRowFunction implements RowFunction {
     }
   }
 
+  /**
+   * Eval dimension.
+   *
+   * @param row the row
+   * @return the list
+   */
   @Override
   public List<String> evalDimension(Row row) {
     try {
-      int allargssize=sourceArgsSize + addTransformFunctionArgsSize;
+      int allargssize = sourceArgsSize + addTransformFunctionArgsSize;
       PyObject[] args = new PyObject[allargssize];
       int i = 0;
       for (; i < sourceArgsSize; i++) {

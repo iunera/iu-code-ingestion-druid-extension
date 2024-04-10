@@ -43,6 +43,7 @@ jobs:
         run: |
           rm Dockerfile
           cp -a Dockerfile.singlestage Dockerfile
+          echo $DRUID_VERSION
 
       - name: Build and push
         uses: docker/build-push-action@v5

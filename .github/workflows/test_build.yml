@@ -33,7 +33,7 @@ jobs:
             --non-recursive \
             exec:exec) 
           echo "DRUID_VERSION=$DRUID_VERSION" >> $GITHUB_ENV
-          echo "IMAGE_TAG=$DRUID_VERSION-${{ github.sha }}"
+          echo "IMAGE_TAG=$DRUID_VERSION-${{ github.sha }}" >> $GITHUB_ENV
 
       - name: provide singlestage Dockerfile
         run: |

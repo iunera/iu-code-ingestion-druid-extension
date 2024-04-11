@@ -33,14 +33,20 @@ jobs:
             --non-recursive \
             exec:exec) 
           echo "DRUID_VERSION=$DRUID_VERSION" >> $GITHUB_ENV
+          echo "IMAGE_TAG=$DRUID_VERSION-${{ github.sha }}"
 
-      - run: |
-          echo "::error CHECK DRUID_VERSION"
-          echo "$DRUID_VERSION"
-          echo "$JAVA_HOME"
-          echo welt!
-          echo "::error CHECK DRUID_VERSION"
+      - name: provide singlestage Dockerfile
+        run: |
+          rm Dockerfile
+          cp -a Dockerfile.singlestage Dockerfile
 
+      - name: print variables
+        run: |
+          echo "::info CHECK DRUID_VERSION"
+          echo $DRUID_VERSION
+          echo $IMAGE_TAG
+          echo "::info CHECK DRUID_VERSION"
+          
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
@@ -49,29 +55,15 @@ jobs:
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
-      -
-        name: Set up Docker Buildx
+      - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-      
-      - name: provide singlestage Dockerfile
-        run: |
-          rm Dockerfile
-          cp -a Dockerfile.singlestage Dockerfile
 
       - name: Build the Docker image
         run: |
           echo "::error DOCKER BUILD"
-          docker build --build-arg="DRUID_VERSION=$DRUID_VERSION" -t iunera/druidtest:$DRUID_VERSION .
-          docker push iunera/druidtest:$DRUID_VERSION
+          docker build --build-arg="DRUID_VERSION=$DRUID_VERSION" -t iunera/druid:$IMAGE_TAG .
+          docker push iunera/druid:$IMAGE_TAG
 
-      
-      # - name: Build and push
-      #   uses: docker/build-push-action@v5
-      #   with:
-      #     push: false
-      #     tags: iunera/druidtest:$DRUID_VERSION
-      #     build-args: DRUID_VERSION=$DRUID_VERSION
-
-      # - name: Inspect
-      #   run: |
-      #     docker image inspect iunera/druid:$DRUID_VERSION
+      - name: Inspect
+        run: |
+          docker image inspect iunera/druid:$IMAGE_TAG

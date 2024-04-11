@@ -62,8 +62,7 @@ jobs:
         run: |
           echo "::error DOCKER BUILD"
           docker build --build-arg="DRUID_VERSION=$DRUID_VERSION" -t iunera/druidtest:$DRUID_VERSION .
-
-          
+          docker push iunera/druidtest:$DRUID_VERSION
 
       
       # - name: Build and push

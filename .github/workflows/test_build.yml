@@ -33,7 +33,7 @@ jobs:
             --non-recursive \
             exec:exec) 
           echo "DRUID_VERSION=$DRUID_VERSION" >> $GITHUB_ENV
-          echo "IMAGE_TAG=$DRUID_VERSION-${{ github.sha }}" >> $GITHUB_ENV
+          echo "IMAGE_TAG=$DRUID_VERSION-$(date +%Y-%m-%d"T"%H:%M:%S)" >> $GITHUB_ENV
 
       - name: provide singlestage Dockerfile
         run: |
@@ -61,9 +61,9 @@ jobs:
       - name: Build the Docker image
         run: |
           echo "::error DOCKER BUILD"
-          docker build --build-arg="DRUID_VERSION=$DRUID_VERSION" -t iunera/druid:$IMAGE_TAG .
-          docker push iunera/druid:$IMAGE_TAG
+          docker build --build-arg="DRUID_VERSION=$DRUID_VERSION" -t iunera/druiddev:$IMAGE_TAG .
+          docker push iunera/druiddev:$IMAGE_TAG
 
       - name: Inspect
         run: |
-          docker image inspect iunera/druid:$IMAGE_TAG
+          docker image inspect iunera/druiddev:$IMAGE_TAG

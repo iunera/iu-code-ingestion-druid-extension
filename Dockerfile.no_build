@@ -2,10 +2,7 @@ ARG DRUID_VERSION
 
 FROM apache/druid:${DRUID_VERSION}
 
-WORKDIR /opt/druid
-
 USER druid
-
 WORKDIR /opt/druid/extensions/
 
 COPY target/*.tar.gz extension.tar.gz

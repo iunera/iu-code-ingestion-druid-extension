@@ -38,7 +38,7 @@ jobs:
       - name: provide singlestage Dockerfile
         run: |
           rm Dockerfile
-          cp -a Dockerfile.singlestage Dockerfile
+          cp -a Dockerfile.no_build Dockerfile
 
       - name: print variables
         run: |

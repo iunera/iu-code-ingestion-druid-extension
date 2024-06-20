@@ -6,7 +6,7 @@ The project is not to be distributed or for commercial use. It is in the current
 
 ## Usage in container
 
-Deploy the `iunera/druid:29.0.1` image in your druid setting
+Deploy the `iunera/druid:30.0.0` image in your druid setting
 
 Add `"iu-code-ingestion-druid-extension"` into the `druid.extensions.loadList` in the Druid Configuration
 
@@ -24,7 +24,7 @@ java \
   -Ddruid.extensions.hadoopDependenciesDir="hadoop-dependencies" \
   org.apache.druid.cli.Main tools pull-deps \
   --no-default-hadoop \
-  -c "com.iunera:iu-code-ingestion-druid-extension:29.0.1"
+  -c "com.iunera:iu-code-ingestion-druid-extension:30.0.0"
 ```
 
 ## Build Dockerimage from Scratch

@@ -1,12 +1,32 @@
-/*
- * Copyright 2023 Tim Frey This is a project for useful Druid extensions in the Fahrbar project. The
- * project is not to be distributed or for commercial use. It is in the current state for evaluation
- * purposes only. This software has no warranties and no special use rights are granted other than
- * evaluation.
- */
-
 package com.iunera.druid.extensions.transform;
 
+/*-
+ * #%L
+ * iu-code-ingestion-druid-extension
+ * %%
+ * Copyright (C) 2024 Tim Frey, Christian Schmitt
+ * %%
+ * Licensed under the OPEN COMPENSATION TOKEN LICENSE (the "License").
+ *
+ * You may not use this file except in compliance with the License.
+ *
+ * You may obtain a copy of the License at
+ * <https://github.com/open-compensation-token-license/license/blob/main/LICENSE.md>
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either expressed or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @octl.sid: 1b6f7a5d-8dcf-44f1-b03a-77af04433496
+ * #L%
+ */
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.base.Preconditions;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
@@ -19,18 +39,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.druid.segment.transform.RowFunction;
 import org.apache.druid.segment.transform.Transform;
+import org.python.core.PyCode;
 import org.python.core.PyFunction;
 import org.python.util.PythonInterpreter;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.common.base.Preconditions;
-import org.python.core.PyCode;
 
-
-/**
- * The Class PyScriptTransform.
- */
+/** The Class PyScriptTransform. */
 public class PyScriptTransform implements Transform {
 
   /** The Constant TYPE_NAME. */
@@ -73,10 +86,9 @@ public class PyScriptTransform implements Transform {
   private final PyCode compiledPycode;
 
   /** The Constant simpleBase64Pattern. */
-  private final static Pattern simpleBase64Pattern = Pattern
-      .compile("^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{4})$");
-
-
+  private static final Pattern simpleBase64Pattern =
+      Pattern.compile(
+          "^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{4})$");
 
   /**
    * Instantiates a new py script transform.
@@ -85,22 +97,26 @@ public class PyScriptTransform implements Transform {
    * @param sourceColumns the source columns that are passed into the scripting function. Optional
    * @param code the code
    * @param transformFunction the name of the transform function in the code. Default: transform.
-   *        Optional
+   *     Optional
    * @param home environment home of the runtime, e.g. pyhome. Default: classpath:/. Optional.
    * @param rawResult used that returned arrays with one element are not taken as normal object.
-   *        Default: false. Optional.
+   *     Default: false. Optional.
    * @param addTransformFunctionArgs static arguments that are passed into each function call.
-   *        Optional.
+   *     Optional.
    */
   @JsonCreator
-  public PyScriptTransform(@JsonProperty("name") String name,
-      @JsonProperty("sourceColumns") @JsonFormat(
-          with = JsonFormat.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY) String[] sourceColumns,
+  public PyScriptTransform(
+      @JsonProperty("name") String name,
+      @JsonProperty("sourceColumns")
+          @JsonFormat(with = JsonFormat.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
+          String[] sourceColumns,
       @JsonProperty("code") String code,
       @JsonProperty("transformFunction") String transformFunction,
-      @JsonProperty("home") String home, @JsonProperty("rawResult") Boolean rawResult,
-      @JsonProperty("addTransformFunctionArgs") @JsonFormat(
-          with = JsonFormat.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY) String[] addTransformFunctionArgs) {
+      @JsonProperty("home") String home,
+      @JsonProperty("rawResult") Boolean rawResult,
+      @JsonProperty("addTransformFunctionArgs")
+          @JsonFormat(with = JsonFormat.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
+          String[] addTransformFunctionArgs) {
     this.name = Preconditions.checkNotNull(name, "name");
     if (sourceColumns != null) {
       this.sourceColumns = Arrays.asList(sourceColumns);
@@ -116,8 +132,7 @@ public class PyScriptTransform implements Transform {
     if (transformFunction == null)
       transformFunction = PyScriptTransform.defaulTransformFunctionName;
     this.transformFunction = transformFunction;
-    if (home == null)
-      home = PyScriptTransform.defaultHome;
+    if (home == null) home = PyScriptTransform.defaultHome;
 
     if (addTransformFunctionArgs != null) {
       this.addTransformFunctionArgs = Arrays.asList(addTransformFunctionArgs);
@@ -127,11 +142,8 @@ public class PyScriptTransform implements Transform {
 
     Preconditions.checkNotNull(code, "code");
     Matcher isBase64 = PyScriptTransform.simpleBase64Pattern.matcher(code);
-    if (isBase64.matches())
-      this.code = new String(Base64.getDecoder().decode(code));
-    else
-      this.code = code;
-
+    if (isBase64.matches()) this.code = new String(Base64.getDecoder().decode(code));
+    else this.code = code;
 
     Properties props = new Properties();
     // props.put("python.home", home);
@@ -146,8 +158,6 @@ public class PyScriptTransform implements Transform {
     compiledPycode = interpreter.compile(this.code);
     interpreter.exec(compiledPycode);
     pyrowfunction = (PyFunction) interpreter.get(this.transformFunction);
-
-
   }
 
   /**
@@ -218,10 +228,13 @@ public class PyScriptTransform implements Transform {
    */
   @Override
   public RowFunction getRowFunction() {
-    return new PyRowFunction(this.name, this.sourceColumns, this.pyrowfunction, this.rawResult,
+    return new PyRowFunction(
+        this.name,
+        this.sourceColumns,
+        this.pyrowfunction,
+        this.rawResult,
         this.addTransformFunctionArgs);
   }
-
 
   /**
    * Gets the required columns.
@@ -249,7 +262,8 @@ public class PyScriptTransform implements Transform {
       return false;
     }
     final PyScriptTransform that = (PyScriptTransform) o;
-    return Objects.equals(name, that.name) && Objects.equals(pyrowfunction, that.pyrowfunction)
+    return Objects.equals(name, that.name)
+        && Objects.equals(pyrowfunction, that.pyrowfunction)
         && Objects.equals(this.sourceColumns, that.sourceColumns)
         && Objects.equals(this.rawResult, that.rawResult);
   }
@@ -271,7 +285,13 @@ public class PyScriptTransform implements Transform {
    */
   @Override
   public String toString() {
-    return "ExpressionTransform{" + "name='" + name + '\'' + ", expression='"
-        + pyrowfunction.__name__ + '\'' + '}';
+    return "ExpressionTransform{"
+        + "name='"
+        + name
+        + '\''
+        + ", expression='"
+        + pyrowfunction.__name__
+        + '\''
+        + '}';
   }
 }

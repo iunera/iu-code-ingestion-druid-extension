@@ -1,10 +1,27 @@
-/*
- * Copyright 2023 Tim Frey This is a project for useful Druid extensions in the Fahrbar project. The
- * project is not to be distributed or for commercial use. It is in the current state for evaluation
- * purposes only. This software has no warranties and no special use rights are granted other than
- * evaluation.
- */
 package com.iunera.druid.extensions.aggregator;
+
+/*-
+ * #%L
+ * iu-code-ingestion-druid-extension
+ * %%
+ * Copyright (C) 2024 Tim Frey, Christian Schmitt
+ * %%
+ * Licensed under the OPEN COMPENSATION TOKEN LICENSE (the "License").
+ *
+ * You may not use this file except in compliance with the License.
+ *
+ * You may obtain a copy of the License at
+ * <https://github.com/open-compensation-token-license/license/blob/main/LICENSE.md>
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either expressed or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @octl.sid: 1b6f7a5d-8dcf-44f1-b03a-77af04433496
+ * #L%
+ */
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -12,6 +29,11 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Ordering;
 import com.google.common.primitives.Doubles;
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Objects;
 import org.apache.druid.java.util.common.StringUtils;
 import org.apache.druid.query.aggregation.Aggregator;
 import org.apache.druid.query.aggregation.AggregatorFactory;
@@ -20,16 +42,7 @@ import org.apache.druid.query.aggregation.BufferAggregator;
 import org.apache.druid.segment.ColumnSelectorFactory;
 import org.apache.druid.segment.column.ColumnType;
 
-import java.nio.ByteBuffer;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Objects;
-
-
-/**
- * A factory for creating ArrayCountAggregator objects.
- */
+/** A factory for creating ArrayCountAggregator objects. */
 public class ArrayCountAggregatorFactory extends AggregatorFactory {
   // Built-in aggregators use 1-byte codes starting with 0x00 for cache keys.
   /** The Constant CACHE_KEY_PREFIX. */
@@ -41,14 +54,13 @@ public class ArrayCountAggregatorFactory extends AggregatorFactory {
   public static final String TYPE_NAME = "exampleSum";
 
   /** The Constant COMPARATOR. */
-  private static final Comparator COMPARATOR = new Ordering() {
-    @Override
-    public int compare(Object o, Object o1) {
-      return 1;
-    }
-  }.nullsFirst();
-
-
+  private static final Comparator COMPARATOR =
+      new Ordering() {
+        @Override
+        public int compare(Object o, Object o1) {
+          return 1;
+        }
+      }.nullsFirst();
 
   /** The name. */
   private final String name;
@@ -63,8 +75,8 @@ public class ArrayCountAggregatorFactory extends AggregatorFactory {
    * @param fieldName the field name
    */
   @JsonCreator
-  public ArrayCountAggregatorFactory(@JsonProperty("name") final String name,
-      @JsonProperty("fieldName") final String fieldName) {
+  public ArrayCountAggregatorFactory(
+      @JsonProperty("name") final String name, @JsonProperty("fieldName") final String fieldName) {
     this.name = Preconditions.checkNotNull(name, "name");
     this.fieldName = Preconditions.checkNotNull(fieldName, "fieldName");
   }
@@ -218,7 +230,9 @@ public class ArrayCountAggregatorFactory extends AggregatorFactory {
   @Override
   public byte[] getCacheKey() {
     byte[] fieldNameBytes = StringUtils.toUtf8WithNullToEmpty(fieldName);
-    return ByteBuffer.allocate(2 + fieldNameBytes.length).put(CACHE_KEY_PREFIX).put(fieldNameBytes)
+    return ByteBuffer.allocate(2 + fieldNameBytes.length)
+        .put(CACHE_KEY_PREFIX)
+        .put(fieldNameBytes)
         .array();
   }
 
@@ -287,7 +301,13 @@ public class ArrayCountAggregatorFactory extends AggregatorFactory {
    */
   @Override
   public String toString() {
-    return "ExampleSumAggregatorFactory{" + "name='" + name + '\'' + ", fieldName='" + fieldName
-        + '\'' + '}';
+    return "ExampleSumAggregatorFactory{"
+        + "name='"
+        + name
+        + '\''
+        + ", fieldName='"
+        + fieldName
+        + '\''
+        + '}';
   }
 }

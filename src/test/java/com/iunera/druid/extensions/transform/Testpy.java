@@ -1,17 +1,31 @@
-/*
- * Copyright 2023 Tim Frey This is a project for useful Druid extensions in the Fahrbar project. The
- * project is not to be distributed or for commercial use. It is in the current state for evaluation
- * purposes only. This software has no warranties and no special use rights are granted other than
- * evaluation.
- */
 package com.iunera.druid.extensions.transform;
 
+/*-
+ * #%L
+ * iu-code-ingestion-druid-extension
+ * %%
+ * Copyright (C) 2024 Tim Frey, Christian Schmitt
+ * %%
+ * Licensed under the OPEN COMPENSATION TOKEN LICENSE (the "License").
+ *
+ * You may not use this file except in compliance with the License.
+ *
+ * You may obtain a copy of the License at
+ * <https://github.com/open-compensation-token-license/license/blob/main/LICENSE.md>
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either expressed or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @octl.sid: 1b6f7a5d-8dcf-44f1-b03a-77af04433496
+ * #L%
+ */
+
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 import java.util.Properties;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import org.python.core.PyArray;
 import org.python.core.PyFunction;
 import org.python.core.PyList;
@@ -19,15 +33,16 @@ import org.python.core.PyObject;
 import org.python.core.PyString;
 import org.python.util.PythonInterpreter;
 
-
-/**
- * The Class Testpy.
- */
+/** The Class Testpy. */
 public class Testpy {
 
   /** The defpycode. */
-  static String defpycode = "def returnvalue(str) :\n" + "    if str == \"hi\" :\n"
-      + "        return [1,2]\n" + "    else :\n" + "        return [2]";
+  static String defpycode =
+      "def returnvalue(str) :\n"
+          + "    if str == \"hi\" :\n"
+          + "        return [1,2]\n"
+          + "    else :\n"
+          + "        return [2]";
 
   /**
    * The main method.
@@ -50,7 +65,6 @@ public class Testpy {
     PyFunction pf = (PyFunction) interp.get("returnvalue");
     PyObject transformed = pf.__call__(new PyString("fdfdf"));
 
-
     List<Object> retlist = new ArrayList<>(1);
     if (transformed instanceof PyList) {
       PyList ret = (PyList) transformed;
@@ -72,5 +86,4 @@ public class Testpy {
 
     System.out.println(transformed.toString());
   }
-
 }

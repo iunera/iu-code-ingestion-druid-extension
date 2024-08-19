@@ -1,10 +1,27 @@
-/*
- * Copyright 2023 Tim Frey This is a project for useful Druid extensions in the Fahrbar project. The
- * project is not to be distributed or for commercial use. It is in the current state for evaluation
- * purposes only. This software has no warranties and no special use rights are granted other than
- * evaluation.
- */
 package com.iunera.druid.extensions.transform;
+
+/*-
+ * #%L
+ * iu-code-ingestion-druid-extension
+ * %%
+ * Copyright (C) 2024 Tim Frey, Christian Schmitt
+ * %%
+ * Licensed under the OPEN COMPENSATION TOKEN LICENSE (the "License").
+ *
+ * You may not use this file except in compliance with the License.
+ *
+ * You may obtain a copy of the License at
+ * <https://github.com/open-compensation-token-license/license/blob/main/LICENSE.md>
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either expressed or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * @octl.sid: 1b6f7a5d-8dcf-44f1-b03a-77af04433496
+ * #L%
+ */
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,10 +33,7 @@ import org.python.core.PyList;
 import org.python.core.PyObject;
 import org.python.core.PyString;
 
-
-/**
- * The Class PyRowFunction.
- */
+/** The Class PyRowFunction. */
 class PyRowFunction implements RowFunction {
 
   /** The name. */
@@ -52,8 +66,12 @@ class PyRowFunction implements RowFunction {
    * @param returnRawValues the return raw values
    * @param addTransformFunctionArgs the add transform function args
    */
-  PyRowFunction(final String name, final List<String> source, PyFunction pyrowfunction,
-      boolean returnRawValues, List<String> addTransformFunctionArgs) {
+  PyRowFunction(
+      final String name,
+      final List<String> source,
+      PyFunction pyrowfunction,
+      boolean returnRawValues,
+      List<String> addTransformFunctionArgs) {
     this.name = name;
     this.pyrowfunction = pyrowfunction;
     this.source = source;
@@ -84,10 +102,8 @@ class PyRowFunction implements RowFunction {
   public Object eval(final Row row) {
     try {
       List<String> transformedlist = evalDimension(row);
-      if (transformedlist.size() == 0)
-        return null;
-      if (transformedlist.size() == 1 && this.returnraw == false)
-        return transformedlist.get(0);
+      if (transformedlist.size() == 0) return null;
+      if (transformedlist.size() == 1 && this.returnraw == false) return transformedlist.get(0);
 
       return transformedlist;
     } catch (Throwable t) {
@@ -131,7 +147,10 @@ class PyRowFunction implements RowFunction {
       }
       return retlist;
     } catch (Throwable t) {
-      throw new ISE(t, "Could not transform dimension value for %s reason: %s", name,
+      throw new ISE(
+          t,
+          "Could not transform dimension value for %s reason: %s",
+          name,
           t.getStackTrace().toString());
     }
   }

@@ -1,7 +1,8 @@
 # iu-code-ingestion-druid-extension
 
-This is a project for useful Druid extensions in the Fahrbar project. 
-The project is not to be distributed or for commercial use. It is in the current state for evaluation only.
+This project is an example how to add custom pre-ingestion parsers for Apache Druid.
+It shows how simple scripts can be easily added in ingestion specs based on the example of simple Python 2.0 scripts that get compiled.
+We hope the use of Python in Apache Druid ingestions will help to connect the Data Science community with the Big Data Community
 
 
 ## Usage in container

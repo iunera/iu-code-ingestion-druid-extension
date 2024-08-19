@@ -35,11 +35,6 @@ jobs:
           echo "DRUID_VERSION=$DRUID_VERSION" >> $GITHUB_ENV
           echo "IMAGE_TAG=$DRUID_VERSION-$(date +%Y%m%d"T"%H%M%S)" >> $GITHUB_ENV
 
-      - name: provide singlestage Dockerfile
-        run: |
-          rm Dockerfile
-          cp -a Dockerfile.no_build Dockerfile
-
       - name: print variables
         run: |
           echo "::info CHECK DRUID_VERSION"

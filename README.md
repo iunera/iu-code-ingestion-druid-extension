@@ -65,3 +65,19 @@ limitations under the License.
 ```
 * Why did we [choose the OCTL as alternative to the Apache License 2.0](https://www.license-token.com/wiki/unveiling-apache-license-2-0-summary)?
 * Why we [do NOT apply Apache 2.0 License](https://www.license-token.com/wiki/the-downside-of-apache-license-and-why-i-never-would-use-it)?
+
+### Need Expert Apache Druid Consulting?
+
+**Maximize your return on data** with professional Druid implementation and optimization services. From architecture design to performance tuning and AI integration, our experts help you navigate Druid's complexity and unlock its full potential.
+
+**[Get Expert Druid Consulting →](https://www.iunera.com/apache-druid-ai-consulting-europe/)**
+
+For more information about our services and solutions, visit [www.iunera.com](https://www.iunera.com).
+
+### Contact & Support
+
+Need help? Let 
+
+- **Website**: [https://www.iunera.com](https://www.iunera.com)
+- **Professional Services**: Contact us through [email](mailto:consulting@iunera.com?subject=Druid%20MCP%20Server%20inquiry) for [Apache Druid enterprise consulting, support and custom development](https://www.iunera.com/apache-druid-ai-consulting-europe/)
+- **Open Source**: This project is open source and community contributions are welcome

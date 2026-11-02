@@ -26,8 +26,8 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<druid.version>${project.version}</druid.version>
 		<jmh.version>1.9.2</jmh.version>
-		<maven.compiler.source>25</maven.compiler.source>
-		<maven.compiler.target>25</maven.compiler.target>
+		<maven.compiler.source>21</maven.compiler.source>
+		<maven.compiler.target>21</maven.compiler.target>
 	</properties>
 
 	<licenses>
@@ -116,8 +116,8 @@
 				<version>3.1</version>
 				<configuration>
 					<compilerArgument>-Xlint:unchecked</compilerArgument>
-					<source>25</source>
-					<target>25</target>
+					<source>21</source>
+					<target>21</target>
 				</configuration>
 			</plugin>
 			<plugin>

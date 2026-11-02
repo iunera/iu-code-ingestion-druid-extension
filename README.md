@@ -7,7 +7,7 @@ We hope the use of Python in Apache Druid ingestions will help to connect the Da
 
 ## Usage in container
 
-Deploy the `iunera/druid:30.0.0` image in your druid setting
+Deploy the `iunera/druid:38.0.0` image in your druid setting
 
 Add `"iu-code-ingestion-druid-extension"` into the `druid.extensions.loadList` in the Druid Configuration
 
@@ -25,19 +25,23 @@ java \
   -Ddruid.extensions.hadoopDependenciesDir="hadoop-dependencies" \
   org.apache.druid.cli.Main tools pull-deps \
   --no-default-hadoop \
-  -c "com.iunera:iu-code-ingestion-druid-extension:30.0.0"
+  -c "com.iunera:iu-code-ingestion-druid-extension:38.0.0"
 ```
 
 ## Build Dockerimage from Scratch
 
-```
+```bash
 export DRUID_VERSION=$(mvn -q \
   -Dexec.executable=echo \
   -Dexec.args='${druid.version}' \
   --non-recursive \
   exec:exec)
 
+# Single platform (local runner)
 docker build --no-cache --build-arg="DRUID_VERSION=$DRUID_VERSION" -t iunera/druid:$DRUID_VERSION .
+
+# Multi-platform (linux/amd64 and linux/arm64)
+docker buildx build --platform linux/amd64,linux/arm64 --build-arg="DRUID_VERSION=$DRUID_VERSION" -t iunera/druid:$DRUID_VERSION .
 ```
 
 

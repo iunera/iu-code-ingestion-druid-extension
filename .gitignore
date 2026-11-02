@@ -30,3 +30,5 @@ target/
 .settings
 .factorypath
 .project
+/.idea
+/skills/system/run-workflow/SKILL.md

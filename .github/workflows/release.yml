@@ -61,12 +61,16 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Build the Docker image
-        run: |
-          echo "::error DOCKER BUILD"
-          docker build --build-arg="DRUID_VERSION=$DRUID_VERSION" -t iunera/druid:$IMAGE_TAG .
-          docker push iunera/druid:$IMAGE_TAG
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          platforms: linux/amd64,linux/arm64
+          push: true
+          build-args: |
+            DRUID_VERSION=${{ env.DRUID_VERSION }}
+          tags: iunera/druid:${{ env.IMAGE_TAG }}
 
       - name: Inspect
         run: |
-          docker image inspect iunera/druid:$IMAGE_TAG
+          docker buildx imagetools inspect iunera/druid:$IMAGE_TAG

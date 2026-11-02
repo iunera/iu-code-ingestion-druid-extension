@@ -30,14 +30,18 @@ java \
 
 ## Build Dockerimage from Scratch
 
-```
+```bash
 export DRUID_VERSION=$(mvn -q \
   -Dexec.executable=echo \
   -Dexec.args='${druid.version}' \
   --non-recursive \
   exec:exec)
 
+# Single platform (local runner)
 docker build --no-cache --build-arg="DRUID_VERSION=$DRUID_VERSION" -t iunera/druid:$DRUID_VERSION .
+
+# Multi-platform (linux/amd64 and linux/arm64)
+docker buildx build --platform linux/amd64,linux/arm64 --build-arg="DRUID_VERSION=$DRUID_VERSION" -t iunera/druid:$DRUID_VERSION .
 ```
 
 

@@ -17,6 +17,7 @@
 	<groupId>com.iunera.druid</groupId>
 	<artifactId>iu-code-ingestion-druid-extension</artifactId>
 	<version>38.0.0</version>
+	<name>iu-code-ingestion-druid-extension</name>
 
 	<description>This is a project for useful Druid extensions in the iunera fahrbar project.</description>
 	<url>https://github.com/iunera</url>

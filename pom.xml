@@ -16,7 +16,7 @@
 
 	<groupId>com.iunera.druid</groupId>
 	<artifactId>iu-code-ingestion-druid-extension</artifactId>
-	<version>30.0.1</version>
+	<version>38.0.0</version>
 
 	<description>This is a project for useful Druid extensions in the iunera fahrbar project.</description>
 	<url>https://github.com/iunera</url>
@@ -26,8 +26,8 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<druid.version>${project.version}</druid.version>
 		<jmh.version>1.9.2</jmh.version>
-		<maven.compiler.source>17</maven.compiler.source>
-		<maven.compiler.target>17</maven.compiler.target>
+		<maven.compiler.source>25</maven.compiler.source>
+		<maven.compiler.target>25</maven.compiler.target>
 	</properties>
 
 	<licenses>
@@ -116,8 +116,8 @@
 				<version>3.1</version>
 				<configuration>
 					<compilerArgument>-Xlint:unchecked</compilerArgument>
-					<source>1.8</source>
-					<target>1.8</target>
+					<source>25</source>
+					<target>25</target>
 				</configuration>
 			</plugin>
 			<plugin>

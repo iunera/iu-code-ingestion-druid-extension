@@ -23,8 +23,6 @@ package com.iunera.druid.extensions.transform;
  * #L%
  */
 
-import java.util.ArrayList;
-import java.util.List;
 import org.apache.druid.data.input.Row;
 import org.apache.druid.java.util.common.ISE;
 import org.apache.druid.segment.transform.RowFunction;
@@ -32,6 +30,9 @@ import org.python.core.PyFunction;
 import org.python.core.PyList;
 import org.python.core.PyObject;
 import org.python.core.PyString;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /** The Class PyRowFunction. */
 class PyRowFunction implements RowFunction {
@@ -103,7 +104,7 @@ class PyRowFunction implements RowFunction {
     try {
       List<String> transformedlist = evalDimension(row);
       if (transformedlist.size() == 0) return null;
-      if (transformedlist.size() == 1 && this.returnraw == false) return transformedlist.get(0);
+      if (transformedlist.size() == 1 && !this.returnraw) return transformedlist.get(0);
 
       return transformedlist;
     } catch (Throwable t) {
@@ -136,9 +137,8 @@ class PyRowFunction implements RowFunction {
         return retlist;
       }
       // used to preserve multi-value dimensions
-      if (transformed instanceof PyList) {
-        PyList ret = (PyList) transformed;
-        retlist = new ArrayList<>(ret.size());
+      if (transformed instanceof PyList ret) {
+          retlist = new ArrayList<>(ret.size());
         for (Object o : ret) {
           retlist.add(o.toString());
         }

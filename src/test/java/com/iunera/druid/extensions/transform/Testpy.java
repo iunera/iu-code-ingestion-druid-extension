@@ -23,15 +23,12 @@ package com.iunera.druid.extensions.transform;
  * #L%
  */
 
+import org.python.core.*;
+import org.python.util.PythonInterpreter;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-import org.python.core.PyArray;
-import org.python.core.PyFunction;
-import org.python.core.PyList;
-import org.python.core.PyObject;
-import org.python.core.PyString;
-import org.python.util.PythonInterpreter;
 
 /** The Class Testpy. */
 public class Testpy {
@@ -60,15 +57,14 @@ public class Testpy {
 
     PythonInterpreter.initialize(preprops, props, new String[0]);
     PythonInterpreter interp = new PythonInterpreter();
-    org.python.core.PyCode code = interp.compile(defpycode);
+    PyCode code = interp.compile(defpycode);
     interp.exec(code);
     PyFunction pf = (PyFunction) interp.get("returnvalue");
     PyObject transformed = pf.__call__(new PyString("fdfdf"));
 
     List<Object> retlist = new ArrayList<>(1);
-    if (transformed instanceof PyList) {
-      PyList ret = (PyList) transformed;
-      retlist = new ArrayList<>(ret.size());
+    if (transformed instanceof PyList ret) {
+        retlist = new ArrayList<>(ret.size());
       for (Object o : ret) {
         System.out.println(o.getClass());
         retlist.add(o.toString());

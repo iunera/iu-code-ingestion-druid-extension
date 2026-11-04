@@ -26,15 +26,12 @@ package com.iunera.druid.extensions.transform;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Preconditions;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
 import org.apache.druid.data.input.Row;
 import org.apache.druid.java.util.common.ISE;
 import org.apache.druid.segment.transform.RowFunction;
 import org.apache.druid.segment.transform.Transform;
+
+import java.util.*;
 
 /** The Class SimpleJavaTransform. */
 public class SimpleJavaTransform implements Transform {
@@ -160,11 +157,7 @@ public class SimpleJavaTransform implements Transform {
     if (this == o) {
       return true;
     }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-
-    return true;
+      return o != null && getClass() == o.getClass();
   }
 
   /**

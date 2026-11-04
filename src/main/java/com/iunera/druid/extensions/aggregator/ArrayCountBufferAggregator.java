@@ -23,13 +23,14 @@ package com.iunera.druid.extensions.aggregator;
  * #L%
  */
 
-import java.io.Serializable;
-import java.nio.ByteBuffer;
-import java.util.List;
 import org.apache.commons.lang3.SerializationUtils;
 import org.apache.druid.query.aggregation.BufferAggregator;
 import org.apache.druid.segment.ColumnValueSelector;
 import org.apache.druid.segment.DimensionHandlerUtils;
+
+import java.io.Serializable;
+import java.nio.ByteBuffer;
+import java.util.List;
 
 /** The Class ArrayCountBufferAggregator. */
 // check also import org.apache.druid.java.util.common.StringUtils;

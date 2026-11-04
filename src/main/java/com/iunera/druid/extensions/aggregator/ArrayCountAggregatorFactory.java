@@ -29,11 +29,6 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Ordering;
 import com.google.common.primitives.Doubles;
-import java.nio.ByteBuffer;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Objects;
 import org.apache.druid.java.util.common.StringUtils;
 import org.apache.druid.query.aggregation.Aggregator;
 import org.apache.druid.query.aggregation.AggregatorFactory;
@@ -41,6 +36,12 @@ import org.apache.druid.query.aggregation.AggregatorFactoryNotMergeableException
 import org.apache.druid.query.aggregation.BufferAggregator;
 import org.apache.druid.segment.ColumnSelectorFactory;
 import org.apache.druid.segment.column.ColumnType;
+
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Objects;
 
 /** A factory for creating ArrayCountAggregator objects. */
 public class ArrayCountAggregatorFactory extends AggregatorFactory {

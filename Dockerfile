@@ -1,6 +1,6 @@
-ARG DRUID_VERSION
+ARG DRUID_VERSION=38.0.0
 
-FROM amazoncorretto:21-al2023-headless AS java-runtime
+FROM --platform=linux/amd64 amazoncorretto:21-al2023-headless AS java-runtime
 RUN cp -a "$(readlink -f /usr/lib/jvm/java-21-amazon-corretto)" /opt/corretto-21 && \
     rm -f /opt/corretto-21/lib/security/cacerts && \
     cp -L /etc/pki/java/cacerts /opt/corretto-21/lib/security/cacerts

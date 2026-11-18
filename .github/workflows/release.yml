@@ -29,9 +29,15 @@ jobs:
           overwrite-settings: 'true'
           cache: maven
 
-      - name: Deploy
+      - name: Deploy (or package if version already on Maven Central)
         run: |
-          ./mvnw deploy -Prelease -Dgpg.passphrase=${GPG_PASSPHRASE} 
+          VERSION=$(./mvnw -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)
+          if curl -sfI "https://repo1.maven.org/maven2/com/iunera/druid/iu-code-ingestion-druid-extension/${VERSION}/iu-code-ingestion-druid-extension-${VERSION}.pom" >/dev/null; then
+            echo "Version ${VERSION} already exists on Maven Central; building extension package for Docker image only."
+            ./mvnw package -B
+          else
+            ./mvnw deploy -Prelease -Dgpg.passphrase=${GPG_PASSPHRASE}
+          fi
         env:
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}

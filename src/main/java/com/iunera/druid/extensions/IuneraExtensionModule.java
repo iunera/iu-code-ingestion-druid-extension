@@ -35,30 +35,33 @@ import org.apache.druid.initialization.DruidModule;
 
 import java.util.List;
 
-/** The Class IuneraExtensionModule. */
+/**
+ * The Class IuneraExtensionModule.
+ */
 public class IuneraExtensionModule implements DruidModule {
 
-  /**
-   * Gets the jackson modules.
-   *
-   * @return the jackson modules
-   */
-  @Override
-  public List<? extends Module> getJacksonModules() {
-    return ImmutableList.of(
-        new SimpleModule(getClass().getSimpleName())
-            .registerSubtypes(
-                new NamedType(
-                    ArrayCountAggregatorFactory.class, ArrayCountAggregatorFactory.TYPE_NAME),
-                new NamedType(PyScriptTransform.class, PyScriptTransform.TYPE_NAME),
-                new NamedType(SimpleJavaTransform.class, SimpleJavaTransform.TYPE_NAME)));
-  }
+    /**
+     * Gets the jackson modules.
+     *
+     * @return the jackson modules
+     */
+    @Override
+    public List<? extends Module> getJacksonModules() {
+        return ImmutableList.of(
+                new SimpleModule(getClass().getSimpleName())
+                        .registerSubtypes(
+                                new NamedType(
+                                        ArrayCountAggregatorFactory.class, ArrayCountAggregatorFactory.TYPE_NAME),
+                                new NamedType(PyScriptTransform.class, PyScriptTransform.TYPE_NAME),
+                                new NamedType(SimpleJavaTransform.class, SimpleJavaTransform.TYPE_NAME)));
+    }
 
-  /**
-   * Configure.
-   *
-   * @param binder the binder
-   */
-  @Override
-  public void configure(Binder binder) {}
+    /**
+     * Configure.
+     *
+     * @param binder the binder
+     */
+    @Override
+    public void configure(Binder binder) {
+    }
 }

@@ -27,15 +27,14 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Preconditions;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.apache.druid.segment.transform.RowFunction;
 import org.apache.druid.segment.transform.Transform;
 import org.python.core.PyCode;
 import org.python.core.PyFunction;
 import org.python.util.PythonInterpreter;
-
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /** The Class PyScriptTransform. */
 public class PyScriptTransform implements Transform {

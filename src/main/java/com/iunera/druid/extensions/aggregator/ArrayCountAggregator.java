@@ -23,10 +23,9 @@ package com.iunera.druid.extensions.aggregator;
  * #L%
  */
 
+import java.util.List;
 import org.apache.druid.query.aggregation.Aggregator;
 import org.apache.druid.segment.ColumnValueSelector;
-
-import java.util.List;
 
 /** The Class ArrayCountAggregator. */
 public class ArrayCountAggregator implements Aggregator {

@@ -31,9 +31,8 @@ import com.google.inject.Binder;
 import com.iunera.druid.extensions.aggregator.ArrayCountAggregatorFactory;
 import com.iunera.druid.extensions.transform.PyScriptTransform;
 import com.iunera.druid.extensions.transform.SimpleJavaTransform;
-import org.apache.druid.initialization.DruidModule;
-
 import java.util.List;
+import org.apache.druid.initialization.DruidModule;
 
 /** The Class IuneraExtensionModule. */
 public class IuneraExtensionModule implements DruidModule {

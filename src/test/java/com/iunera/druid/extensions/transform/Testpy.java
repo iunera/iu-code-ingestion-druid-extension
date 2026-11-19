@@ -30,56 +30,60 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-/** The Class Testpy. */
+/**
+ * The Class Testpy.
+ */
 public class Testpy {
 
-  /** The defpycode. */
-  static String defpycode =
-      "def returnvalue(str) :\n"
-          + "    if str == \"hi\" :\n"
-          + "        return [1,2]\n"
-          + "    else :\n"
-          + "        return [2]";
+    /**
+     * The defpycode.
+     */
+    static String defpycode =
+            "def returnvalue(str) :\n"
+                    + "    if str == \"hi\" :\n"
+                    + "        return [1,2]\n"
+                    + "    else :\n"
+                    + "        return [2]";
 
-  /**
-   * The main method.
-   *
-   * @param args the arguments
-   */
-  public static void main(String[] args) {
+    /**
+     * The main method.
+     *
+     * @param args the arguments
+     */
+    static void main(String[] args) {
 
-    Properties props = new Properties();
-    props.put("python.home", "classpath:/");
-    props.put("python.console.encoding", "UTF-8");
-    props.put("python.security.respectJavaAccessibility", "false");
-    props.put("python.import.site", "false");
-    Properties preprops = System.getProperties();
+        Properties props = new Properties();
+        props.put("python.home", "classpath:/");
+        props.put("python.console.encoding", "UTF-8");
+        props.put("python.security.respectJavaAccessibility", "false");
+        props.put("python.import.site", "false");
+        Properties preprops = System.getProperties();
 
-    PythonInterpreter.initialize(preprops, props, new String[0]);
-    PythonInterpreter interp = new PythonInterpreter();
-    PyCode code = interp.compile(defpycode);
-    interp.exec(code);
-    PyFunction pf = (PyFunction) interp.get("returnvalue");
-    PyObject transformed = pf.__call__(new PyString("fdfdf"));
+        PythonInterpreter.initialize(preprops, props, new String[0]);
+        PythonInterpreter interp = new PythonInterpreter();
+        PyCode code = interp.compile(defpycode);
+        interp.exec(code);
+        PyFunction pf = (PyFunction) interp.get("returnvalue");
+        PyObject transformed = pf.__call__(new PyString("fdfdf"));
 
-    List<Object> retlist = new ArrayList<>(1);
-    if (transformed instanceof PyList ret) {
-        retlist = new ArrayList<>(ret.size());
-      for (Object o : ret) {
-        System.out.println(o.getClass());
-        retlist.add(o.toString());
-      }
-    } else if (transformed instanceof PyArray) {
-      PyList ret = (PyList) (((PyArray) transformed).tolist());
-      retlist = new ArrayList<>(ret.__len__());
-      for (Object o : ret) {
-        retlist.add(((PyString) o).getString());
-      }
+        List<Object> retlist = new ArrayList<>(1);
+        if (transformed instanceof PyList ret) {
+            retlist = new ArrayList<>(ret.size());
+            for (Object o : ret) {
+                System.out.println(o.getClass());
+                retlist.add(o.toString());
+            }
+        } else if (transformed instanceof PyArray) {
+            PyList ret = (PyList) (((PyArray) transformed).tolist());
+            retlist = new ArrayList<>(ret.__len__());
+            for (Object o : ret) {
+                retlist.add(((PyString) o).getString());
+            }
+        }
+
+        // code.invoke("returnvalue");
+        // PyObject ret=code.invoke("returnvalue()");
+
+        System.out.println(transformed.toString());
     }
-
-    // code.invoke("returnvalue");
-    // PyObject ret=code.invoke("returnvalue()");
-
-    System.out.println(transformed.toString());
-  }
 }

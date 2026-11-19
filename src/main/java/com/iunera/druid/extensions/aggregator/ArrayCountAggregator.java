@@ -23,81 +23,92 @@ package com.iunera.druid.extensions.aggregator;
  * #L%
  */
 
-import java.util.List;
 import org.apache.druid.query.aggregation.Aggregator;
 import org.apache.druid.segment.ColumnValueSelector;
 
-/** The Class ArrayCountAggregator. */
+import java.util.List;
+
+/**
+ * The Class ArrayCountAggregator.
+ */
 public class ArrayCountAggregator implements Aggregator {
 
-  /** The selector. */
-  private final ColumnValueSelector<List<Long>> selector;
+    /**
+     * The selector.
+     */
+    private final ColumnValueSelector<List<Long>> selector;
 
-  /** The sum. */
-  private List<Long> sum;
+    /**
+     * The sum.
+     */
+    private List<Long> sum;
 
-  /**
-   * Instantiates a new array count aggregator.
-   *
-   * @param selector the selector
-   */
-  public ArrayCountAggregator(ColumnValueSelector<List<Long>> selector) {
-    this.selector = selector;
+    /**
+     * Instantiates a new array count aggregator.
+     *
+     * @param selector the selector
+     */
+    public ArrayCountAggregator(ColumnValueSelector<List<Long>> selector) {
+        this.selector = selector;
 
-    this.sum = null;
-  }
+        this.sum = null;
+    }
 
-  /** Aggregate. */
-  @Override
-  public void aggregate() {
-    sum = selector.getObject();
-  }
+    /**
+     * Aggregate.
+     */
+    @Override
+    public void aggregate() {
+        sum = selector.getObject();
+    }
 
-  /**
-   * Gets the.
-   *
-   * @return the object
-   */
-  @Override
-  public Object get() {
-    return sum;
-  }
+    /**
+     * Gets the.
+     *
+     * @return the object
+     */
+    @Override
+    public Object get() {
+        return sum;
+    }
 
-  /**
-   * Gets the float.
-   *
-   * @return the float
-   */
-  @Override
-  public float getFloat() {
-    throw new UnsupportedOperationException("Not implemented");
-    // return (float) sum;
-  }
+    /**
+     * Gets the float.
+     *
+     * @return the float
+     */
+    @Override
+    public float getFloat() {
+        throw new UnsupportedOperationException("Not implemented");
+        // return (float) sum;
+    }
 
-  /**
-   * Gets the long.
-   *
-   * @return the long
-   */
-  @Override
-  public long getLong() {
-    throw new UnsupportedOperationException("Not implemented");
-    // return (long) sum;
-  }
+    /**
+     * Gets the long.
+     *
+     * @return the long
+     */
+    @Override
+    public long getLong() {
+        throw new UnsupportedOperationException("Not implemented");
+        // return (long) sum;
+    }
 
-  /**
-   * Clone.
-   *
-   * @return the aggregator
-   */
-  @Override
-  public Aggregator clone() {
-    return new ArrayCountAggregator(selector);
-  }
+    /**
+     * Clone.
+     *
+     * @return the aggregator
+     */
+    @Override
+    public Aggregator clone() {
+        return new ArrayCountAggregator(selector);
+    }
 
-  /** Close. */
-  @Override
-  public void close() {
-    // no resources to cleanup
-  }
+    /**
+     * Close.
+     */
+    @Override
+    public void close() {
+        // no resources to cleanup
+    }
 }
